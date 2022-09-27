@@ -1,8 +1,8 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Loader from '../components/Loader';
 import ProductDetail from '../components/ProductDetail';
+import { publicRequest } from '../helpers/requestMethods';
 import Layout from './Layout';
 
 function Detail() {
@@ -13,13 +13,11 @@ function Detail() {
 
   console.log(product);
 
-  const url = `https://dishop-aja-api.herokuapp.com/v1/products/${id}`;
-
   useEffect(() => {
     setIsLoading(true);
     const getProduct = async () => {
       try {
-        const res = await axios.get(url);
+        const res = await publicRequest.get(`/products/${id}`);
         setProduct(res.data.data.product);
         setIsLoading(false);
       } catch (error) {

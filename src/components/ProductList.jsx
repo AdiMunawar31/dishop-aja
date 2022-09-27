@@ -18,6 +18,7 @@ function ProductList({ category, filters, sort }) {
         const res = await axios.get(category ? `${url}?category=${category}` : url);
         setProducts(res.data.data.products);
       } catch (error) {
+
         // console.log(error);
       }
     };
@@ -42,17 +43,19 @@ function ProductList({ category, filters, sort }) {
   }, [sort]);
 
   return (
-    <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-12">
-      {category ? filteredProducts.map((item) => (
-        <Link to={`/product/${item._id}`}>
-          <CardProduct item={item} key={item.id} />
-        </Link>
-      ))
-        : products.slice(0, 8).map((item) => (
+    <div>
+      <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-12">
+        {category ? filteredProducts.map((item) => (
           <Link to={`/product/${item._id}`}>
             <CardProduct item={item} key={item.id} />
           </Link>
-        ))}
+        ))
+          : products.slice(0, 8).map((item) => (
+            <Link to={`/product/${item._id}`}>
+              <CardProduct item={item} key={item.id} />
+            </Link>
+          ))}
+      </div>
     </div>
   );
 }
