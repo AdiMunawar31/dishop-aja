@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -43,12 +44,12 @@ function ProductList({ category, filters, sort }) {
   return (
     <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-12">
       {category ? filteredProducts.map((item) => (
-        <Link to={`/detail/${item.id}`}>
+        <Link to={`/product/${item._id}`}>
           <CardProduct item={item} key={item.id} />
         </Link>
       ))
         : products.slice(0, 8).map((item) => (
-          <Link to={`/detail/${item.id}`}>
+          <Link to={`/product/${item._id}`}>
             <CardProduct item={item} key={item.id} />
           </Link>
         ))}
