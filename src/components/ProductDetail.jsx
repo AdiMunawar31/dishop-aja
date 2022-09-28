@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { AiFillMinusSquare, AiOutlineShoppingCart } from 'react-icons/ai';
 import { BsFillPlusSquareFill } from 'react-icons/bs';
 import { IoBagCheckOutline } from 'react-icons/io5';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../redux/cartRedux';
 import Loader from './Loader';
 import MoreProduct from './MoreProduct';
 
@@ -9,7 +11,8 @@ function ProductDetail({ product }) {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
-  console.log(color, size);
+  const dispatch = useDispatch();
+  // console.log(color, size);
 
   const handleQuantity = (type) => {
     if (type === 'dec') {
@@ -20,7 +23,11 @@ function ProductDetail({ product }) {
   };
 
   const addToCart = () => {
-
+    dispatch(
+      addProduct({
+        ...product, quantity, color, size,
+      }),
+    );
   };
 
   return (
