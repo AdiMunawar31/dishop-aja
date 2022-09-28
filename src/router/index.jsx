@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   BrowserRouter, Navigate, Route, Routes,
 } from 'react-router-dom';
@@ -19,7 +20,8 @@ function Router() {
       setIsLoading(false);
     }, 1000);
   }, []);
-  const user = true;
+
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <div>
       {!isLoading ? (

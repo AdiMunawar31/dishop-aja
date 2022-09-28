@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { login } from '../redux/apiCalls';
 
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    login(dispatch, { email, password });
+  };
+
   return (
     <div>
       <div className="min-h-screen overflow-hidden bg-blue-500 flex justify-center items-center">
@@ -10,26 +22,35 @@ function Login() {
         <div className="py-12 px-12 bg-white rounded-2xl shadow-xl z-20">
           <div>
             <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">Welcome Back!</h1>
-            <p className="w-80 text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide cursor-pointer">
+            <p className="w-80 text-center text-sm mb-4 font-semibold text-gray-700">
               Sign in to access your account
             </p>
+            {error && <p className="text-red-700 text-sm text-center w-80 rounded-md bg-red-200 p-3">Email or Password is invalid...</p>}
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4 mt-4">
             <input
               type="text"
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email Addres"
               className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
             />
             <input
-              type="text"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
             />
           </div>
           <div className="text-center mt-6">
-            <Link to="/">
-              <button type="submit" className="py-3 w-full text-xl text-white bg-blue-500 rounded-lg">Login</button>
-            </Link>
+            <button
+              type="submit"
+              className="py-3 w-full text-xl text-white bg-blue-500 rounded-lg"
+              onClick={handleClick}
+              disabled={isFetching}
+            >
+              {isFetching ? 'Loading...' : 'Login'}
+            </button>
+
             <p className="mt-4 text-sm">
               Dont Have An Account?
               <Link to="/register">
