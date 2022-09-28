@@ -9,6 +9,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Product from '../pages/Product';
 import Register from '../pages/Register';
+import Success from '../pages/Success';
 import Test from '../pages/Test';
 
 function Router() {
@@ -31,10 +32,11 @@ function Router() {
             <Route path="/product/:id" element={<Detail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/test" element={<Test />} />
+            <Route path="/success" element={<Success />} />
           </Routes>
         </BrowserRouter>
 
-      ) : <Loader />};
+      ) : <Loader />}
     </div>
   );
 }
