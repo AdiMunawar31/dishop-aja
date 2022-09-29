@@ -1,11 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { AiFillMinusSquare } from 'react-icons/ai';
 import { BsFillPlusSquareFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
+import { userRequest } from '../helpers/requestMethods';
 import Layout from './Layout';
 
 const KEY = 'pk_test_51LiqTeE8bJF15DIvpiLJ9LuS3TS7NabAba7FEBntptiiFanQdH0PnyMtLOW8oW8cT2hqWIVU6srXFSTKB3YHZc0F00peT6E78u';
@@ -22,9 +22,9 @@ function Cart() {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await axios.post('/checkout/payment', {
+        const res = await userRequest.post('/checkout/payment', {
           tokenId: stripeToken.id,
-          amount: 2631,
+          amount: cart.total + 10000,
         });
         console.log(res.data);
         navigate('/success');

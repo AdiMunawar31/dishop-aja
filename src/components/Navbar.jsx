@@ -1,12 +1,29 @@
 import React from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BiSearch } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../redux/apiCalls';
 
 function Navbar() {
   const { quantity } = useSelector((state) => state.cart);
-  console.log(quantity);
+  const user = useSelector((state) => state.user.currentUser);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  // const users = JSON.parse(localStorage.getItem('persist:root'))?.user;
+  // const currentUser = users && JSON.parse(user).currentUser;
+  // const refreshToken = currentUser?.refreshToken;
+
+  // console.log(user.refreshToken);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    logout(dispatch, { refreshToken: user.refreshToken });
+    navigate('/login');
+  };
+  // console.log(quantity);
   return (
     <div>
       <header className="bg-blue-500">
@@ -57,16 +74,28 @@ function Navbar() {
               </Link>
               <div className="mx-6 h-12 border-r border-white" />
               <div className="flex justify-center gap-4">
-                <Link to="/login">
-                  <div className="px-6 py-2 cursor-pointer text-center rounded-md transition bg-blue-500 border hover:bg-blue-600 active:bg-gray-700 focus:bg-gray-600 text-xs">
-                    <span className="block text-white font-semibold">Sign In</span>
+                {!user ? (
+                  <div>
+                    <Link to="/login">
+                      <div className="px-6 py-2 cursor-pointer text-center rounded-md transition bg-blue-500 border hover:bg-blue-600 active:bg-gray-700 focus:bg-gray-600 text-xs">
+                        <span className="block text-white font-semibold">Sign In</span>
+                      </div>
+                    </Link>
+                    <Link to="/register">
+                      <div className="px-6 py-2 cursor-pointer text-center rounded-md text-blue-500 bg-gray-100 transition hover:bg-gray-200 active:bg-gray-300 focus:bg-gray-200 text-xs">
+                        <span className="block font-semibold">Sign Up</span>
+                      </div>
+                    </Link>
                   </div>
-                </Link>
-                <Link to="/register">
-                  <div className="px-6 py-2 cursor-pointer text-center rounded-md text-blue-500 bg-gray-100 transition hover:bg-gray-200 active:bg-gray-300 focus:bg-gray-200 text-xs">
-                    <span className="block font-semibold">Sign Up</span>
-                  </div>
-                </Link>
+                ) : (
+                  <button
+                    onClick={handleClick}
+                    type="button"
+                    className="px-6 py-2 cursor-pointer text-center rounded-md text-blue-500 bg-gray-100 transition hover:bg-gray-200 active:bg-gray-300 focus:bg-gray-200 text-xs"
+                  >
+                    <span className="block font-semibold">Logout</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>

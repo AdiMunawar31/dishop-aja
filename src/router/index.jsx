@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   BrowserRouter, Navigate, Route, Routes,
 } from 'react-router-dom';
-import Loader from '../components/Loader';
 import Cart from '../pages/Cart';
 import Detail from '../pages/Detail';
 import Home from '../pages/Home';
@@ -14,31 +12,29 @@ import Success from '../pages/Success';
 import Test from '../pages/Test';
 
 function Router() {
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
-  const user = useSelector((state) => state.user.currentUser);
+  const user = useSelector((state) => state.user?.currentUser);
+  console.log(user);
   return (
     <div>
-      {!isLoading ? (
-        <BrowserRouter>
+      <BrowserRouter>
+        {user ? (
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-            <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
+
             <Route path="/products/:category" element={<Product />} />
             <Route path="/product/:id" element={<Detail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/test" element={<Test />} />
             <Route path="/success" element={<Success />} />
-          </Routes>
-        </BrowserRouter>
 
-      ) : <Loader />}
+          </Routes>
+        ) : (
+          <Routes>
+            <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+            <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
+          </Routes>
+        )}
+      </BrowserRouter>
     </div>
   );
 }
