@@ -19,7 +19,7 @@ function Router() {
       <BrowserRouter>
         {user ? (
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={!user ? <Navigate to="/login" /> : <Home />} />
 
             <Route path="/products/:category" element={<Product />} />
             <Route path="/product/:id" element={<Detail />} />
