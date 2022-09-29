@@ -17,23 +17,18 @@ function Router() {
   return (
     <div>
       <BrowserRouter>
-        {user ? (
-          <Routes>
-            <Route path="/" element={!user ? <Navigate to="/login" /> : <Home />} />
+        <Routes>
+          <Route path="/" element={!user ? <Navigate to="/login" /> : <Home />} />
+          <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+          <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
+          <Route path="/products/:category" element={<Product />} />
+          <Route path="/product/:id" element={<Detail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/success" element={<Success />} />
 
-            <Route path="/products/:category" element={<Product />} />
-            <Route path="/product/:id" element={<Detail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/test" element={<Test />} />
-            <Route path="/success" element={<Success />} />
+        </Routes>
 
-          </Routes>
-        ) : (
-          <Routes>
-            <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-            <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
-          </Routes>
-        )}
       </BrowserRouter>
     </div>
   );
